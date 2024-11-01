@@ -10,7 +10,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: "jdbc:mysql://localhost:3307/coupon_example"
     username: "root"
-    password: "0000"
+    password: ""
 
 --- #구분선
 
@@ -26,4 +26,4 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: "jdbc:mysql://localhost/library"
     username: "root"
-    password: "0000"
+    password: ""
