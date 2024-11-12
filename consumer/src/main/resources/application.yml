@@ -5,7 +5,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create  #서버 시작될 때 마다 테이블 제거하고 자동으로 생성해 줌
-    show-sql: true  #JPA 사용해 DB에 SQL을 날릴 때 SQL을 보여줄 지 설정
+    show-sql: true   #JPA 사용해 DB에 SQL을 날릴 때 SQL을 보여줄 지 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver  #데이터베이스에 접근할 때 사용할 프로그램
     url: "jdbc:mysql://localhost:3307/coupon_example"  #스프링이 데이터를 연결할 주소: mysql(데이터베이스 종류)/localhost(mysql 서버 주소)/coupon_example(사용할 데이터베이스)
