@@ -13,7 +13,7 @@ public class CouponCreateProducer {
     }
 
     public void create(Long userId) {
-        kafkaTemplate.send("coupon_create", userId); // "coupon create"이라는 Kafka 토픽에 userId 값을 메시지로 전송
+        kafkaTemplate.send("coupon_create", userId); // "coupon create" 토픽에 userId 값을 메시지로 전송
     }
 
 }

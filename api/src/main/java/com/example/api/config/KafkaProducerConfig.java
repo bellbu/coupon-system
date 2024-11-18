@@ -12,11 +12,11 @@ import org.springframework.kafka.core.ProducerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration // Kafka의 프로듀서를 설정하기 위해 설정 클래스로 등록
-public class KafkaProducerConfig {
+@Configuration
+public class KafkaProducerConfig { // Producer 작업을 하기위한 설정
 
     @Bean
-    public ProducerFactory<String, Long> producerFactory() { // ProducerFactory: Kafka 메시지를 생성하는 데 필요한 설정을 제공
+    public ProducerFactory<String, Long> producerFactory() { // ProducerFactory: Kafka 메시지를 생성하는데 필요한 설정을 제공
         Map<String, Object> config = new HashMap<>(); // Kafka 프로듀서의 설정 값들을 담기위한 맵을 변수로 정의
 
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092"); // 서버의 정보를 추가

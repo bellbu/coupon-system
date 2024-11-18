@@ -48,18 +48,47 @@ class ApplyServiceTest {
                 try {
                     applyService.apply(userId); // 쿠폰 발급 메서드 호출
                 } finally {
-                    latch.countDown();  // 작업이 끝날 때마다 CountDownLatch의 카운트를 줄임
+                    latch.countDown();  // 작업이 끝날 때마다 CountDownLatch의 카운트 감소
                 }
             });
         }
 
-        latch.await();  // 1000개 스레드가 작업을 완료할 때까지 메인 스레드를 대기 상태로 유지
+        latch.await();  // 모든 스레드가 작업을 완료할 때까지 대기
 
-        Thread.sleep(10000);
+        Thread.sleep(10000); // 지정된 시간 동안 현재 스레드를 일시 중단
 
         long count = couponRepository.count();  // 발급된 쿠폰 수
 
         assertThat(count).isEqualTo(100); // 발급된 쿠폰 100개 검증
+    }
+
+    @Test
+    public void 아이디당_한개의쿠폰만_발급() throws InterruptedException { // 하나의 아이디로 여러번 쿠폰 발급 요청해도 하나의 쿠폰만 발급되는지 테스트
+        // 스레드 설정 및 초기화
+        int threadCount = 1000; // 1000개 스레드 선언
+        ExecutorService executorService = Executors.newFixedThreadPool(32); // 32개 크기의 고정 스레드 풀 생성 ※ 스레드 풀: 미리 여러개의 스레드를 만들어 놓고 재사용
+        CountDownLatch latch = new CountDownLatch(threadCount); // 1000개 스레드 대기: 스레드가 모두 실행을 완료할 때 까지 메인 스레드 대기
+
+        // 동시 요청 시뮬레이션
+        for (int i = 0; i < threadCount; i++) {
+            long userId = i;
+            // 스레드 풀의 작업 큐 추가 ※ 큐 사이즈: 제한이 없음
+            executorService.submit(() -> {
+                try {
+                    applyService.apply(1L); // 하나의 아이디로 쿠폰 발급 메서드 1000번 호출
+                } finally {
+                    latch.countDown();  // 작업이 끝날 때마다 CountDownLatch의 카운트 감소
+                }
+            });
+        }
+
+        latch.await();  // 모든 스레드가 작업을 완료할 때까지 대기
+
+        Thread.sleep(10000); // 지정된 시간 동안 현재 스레드를 일시 중단
+
+        long count = couponRepository.count();  // 발급된 쿠폰 수
+
+        assertThat(count).isEqualTo(1); // 발급된 쿠폰 1개인지 검증
     }
 
 }
